@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout the repository code
+      uses: actions/checkout@v4
+
+    - name: Set up Python environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install necessary libraries
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller pyautogui keyboard plyer
+
+    - name: Package into exe
+      run: |
+        pyinstaller --noconsole --onefile --name="AutoClicker" --version-file="version.txt" --icon="resources/snowflake.ico" --add-data "resources;resources" index.py
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Build Output
+        path: dist/AutoClicker.exe
