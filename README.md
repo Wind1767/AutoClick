@@ -14,7 +14,7 @@
 # For Developers
 - This project is open-source, you can clone it using the following command.
 ```bash
-git clone https://github.com/Wind1767/AutoClick
+git clone https://github.com/Wind1767/AutoClick.git
 ```
 
 ## Credits
