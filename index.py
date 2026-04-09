@@ -10,23 +10,21 @@ import os
 import ctypes
 from ctypes import wintypes
 
-class AutoClickerbyPhong:
-    # Code nhúng
-    def resource_path(relative_path):
-        try:
-            base_path = sys._MEIPASS
-        except Exception:
-            base_path = os.path.abspath(".")
-        return os.path.join(base_path, relative_path)
-    icon_path = resource_path("snowflake.ico") # Tên file icon bạn sẽ nhúng
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
+class AutoClickerbyPhong:
     #region Main setting
     def __init__(self, root):
         self.root = root
         self.root.title("Auto Clicker")
         self.root.geometry("250x120+800+500")
         self.root.resizable(False, False)
-        self.root.iconbitmap(r"D:\Tools\Autoclick\snowflake.ico")
+        self.root.iconbitmap(resource_path("snowflake.ico"))
 
         self.running = False  # Trạng thái chạy/dừng
         
@@ -108,7 +106,7 @@ class AutoClickerbyPhong:
 
     #region Ham hien thi thong bao
     def notify_status(self, title, message):
-            path_to_icon = r"D:\Tools\Autoclick\bell.ico"
+            path_to_icon = resource_path("bell.ico")
             notification.notify(
             title=title,
             message=message,
@@ -196,7 +194,7 @@ class AutoClickerbyPhong:
         win.title("Clicking options")
         win.geometry("320x240+1100+450")
         win.resizable(False, False)
-        win.iconbitmap(r"D:\Tools\Autoclick\mouse-cursor.ico")
+        win.iconbitmap(resource_path("mouse-cursor.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
 
@@ -242,7 +240,7 @@ class AutoClickerbyPhong:
         win.title("Clicking repeat")
         win.geometry("400x230+1100+450")
         win.resizable(False, False)
-        win.iconbitmap(r"D:\Tools\Autoclick\setting.ico")
+        win.iconbitmap(resource_path("setting.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
 
@@ -412,7 +410,7 @@ class AutoClickerbyPhong:
         win.title("Hotkey Setting")
         win.geometry("320x180+1100+470")
         win.resizable(False, False)
-        win.iconbitmap(r"D:\Tools\Autoclick\key.ico")
+        win.iconbitmap(resource_path("key.ico"))
         win.configure(bg="#f8f9fa") # Màu nền xám cực nhạt hiện đại
         win.transient(self.root)
         self.root.attributes("-disabled", True)
@@ -483,7 +481,7 @@ class AutoClickerbyPhong:
         win.geometry("320x220+1100+450")
         win.resizable(False, False)
         win.configure(bg="#f8f9fa")
-        win.iconbitmap(r"D:\Tools\Autoclick\eyes.ico")
+        win.iconbitmap(resource_path("eyes.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
 
@@ -532,7 +530,7 @@ class AutoClickerbyPhong:
         win.title("How to use")
         win.geometry("400x230+1100+450")
         win.resizable(False, False)
-        win.iconbitmap(r"D:\Tools\Autoclick\guide.ico")
+        win.iconbitmap(resource_path("guide.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
         def close_about():
