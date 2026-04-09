@@ -20,10 +20,11 @@ class AutoClickerbyPhong:
         return os.path.join(base_path, relative_path)
     icon_path = resource_path("snowflake.ico") # Tên file icon bạn sẽ nhúng
 
+    #region Main setting
     def __init__(self, root):
         self.root = root
         self.root.title("Auto Clicker")
-        self.root.geometry("250x120+500+500")
+        self.root.geometry("250x120+800+500")
         self.root.resizable(False, False)
         self.root.iconbitmap(r"D:\Tools\Autoclick\snowflake.ico")
 
@@ -70,7 +71,7 @@ class AutoClickerbyPhong:
         #endregion
 
         help_menu = tk.Menu(menubar, tearoff=0)
-        help_menu.add_command(label="About", background= "white")
+        help_menu.add_command(label="About", background= "white", command=self.help_about)
         
         menubar.add_cascade(label="File", menu=file_menu)
         menubar.add_cascade(label="Options", menu=options_menu)
@@ -103,6 +104,7 @@ class AutoClickerbyPhong:
             fg="gray"
         )
         self.footer.pack(side="bottom", pady=5)
+    #endregion
 
     #region Ham hien thi thong bao
     def notify_status(self, title, message):
@@ -192,7 +194,7 @@ class AutoClickerbyPhong:
     def clicking_options(self):
         win = tk.Toplevel(self.root)
         win.title("Clicking options")
-        win.geometry("320x240+800+470")
+        win.geometry("320x240+1100+450")
         win.resizable(False, False)
         win.iconbitmap(r"D:\Tools\Autoclick\mouse-cursor.ico")
         win.transient(self.root)
@@ -238,7 +240,7 @@ class AutoClickerbyPhong:
     def clicking_repeat(self):
         win = tk.Toplevel(self.root)
         win.title("Clicking repeat")
-        win.geometry("400x230+500+500")
+        win.geometry("400x230+1100+450")
         win.resizable(False, False)
         win.iconbitmap(r"D:\Tools\Autoclick\setting.ico")
         win.transient(self.root)
@@ -340,6 +342,7 @@ class AutoClickerbyPhong:
         ).grid(row=0, column=1, sticky="w", padx=5)
     #endregion
 
+    #region Ham tinh thoi gion repeat va delay
     def apply_click_settings(self, win):
         if self.repeat_mode.get() == 1:
             # Dùng .set() để cập nhật giá trị thay vì gán bằng dấu =
@@ -359,6 +362,7 @@ class AutoClickerbyPhong:
         except tk.TclError:
             # Bắt lỗi nếu người dùng nhập chữ hoặc để trống
             self.notify_status("Lỗi nhập liệu", "Vui lòng chỉ nhập số vào ô thời gian!")
+    #endregion
 
     #region Hotkey settings
     def change_hotkey(self, label_widget):
@@ -406,7 +410,7 @@ class AutoClickerbyPhong:
         old_key = self.hotkey_var.get()
         win = tk.Toplevel(self.root)
         win.title("Hotkey Setting")
-        win.geometry("320x180")
+        win.geometry("320x180+1100+470")
         win.resizable(False, False)
         win.iconbitmap(r"D:\Tools\Autoclick\key.ico")
         win.configure(bg="#f8f9fa") # Màu nền xám cực nhạt hiện đại
@@ -476,7 +480,7 @@ class AutoClickerbyPhong:
 
         win = tk.Toplevel(self.root)
         win.title("View Setting")
-        win.geometry("320x220")
+        win.geometry("320x220+1100+450")
         win.resizable(False, False)
         win.configure(bg="#f8f9fa")
         win.iconbitmap(r"D:\Tools\Autoclick\eyes.ico")
@@ -520,6 +524,54 @@ class AutoClickerbyPhong:
             command=on_cancel_view, cursor="hand2"
         )
         cancel_btn.pack(side="left", padx=15, ipady=2, expand=True)
+    #endregion
+
+    #region About settings
+    def help_about(self):
+        win = tk.Toplevel(self.root)
+        win.title("How to use")
+        win.geometry("400x230+1100+450")
+        win.resizable(False, False)
+        win.iconbitmap(r"D:\Tools\Autoclick\guide.ico")
+        win.transient(self.root)
+        self.root.attributes("-disabled", True)
+        def close_about():
+            self.root.unbind("<Button-1>")
+            self.root.attributes("-disabled", False)
+            win.destroy()
+        win.protocol("WM_DELETE_WINDOW", close_about)
+
+        main_frame = tk.Frame(win, bg="#f8f9fa", padx=15, pady=20)
+        main_frame.pack(fill="both", expand=True)
+
+        # --- PHẦN THÊM CHỮ HƯỚNG DẪN BẮT ĐẦU TẠI ĐÂY ---
+        huong_dan = """Instructions for use:
+1. Options -> Clicking -> Options: Change mouse cursor (L/R/M).
+2. Options -> Clicking -> Repeat: Adjust speed and number of clicks.
+3. Options -> Settings -> Hot Key: Change start/stop hot key.
+4. Options -> Settings -> View: Customize window hide/show.
+
+Note: L: Left, R: Right, M: Middle mouse cursor
+Press the hot key (Default F8) to Start/Stop Auto Click."""
+
+        lbl_guide = tk.Label(
+            main_frame, 
+            text=huong_dan, 
+            bg="#f8f9fa", 
+            font=("Segoe UI", 9), 
+            justify="left",         # Căn lề trái cho các dòng
+            anchor="w"              # Neo text về phía Tây (bên trái) của khung
+        )
+        lbl_guide.pack(side="top", fill="both", expand=True, pady=(0, 10))
+
+        btn_frame = tk.Frame(main_frame, bg="#f8f9fa") 
+        btn_frame.pack(side="bottom", pady=15, fill="x")
+
+        ok_btn = tk.Button(
+            btn_frame, text="Ok", width=11, bg="#e1f1ff", relief="flat", bd=0,
+            highlightthickness=1, font=("Segoe UI", 9),
+            command=close_about, cursor="hand2")
+        ok_btn.pack(side="left", padx=15, ipady=2, expand=True)
     #endregion
 
 if __name__ == "__main__":
