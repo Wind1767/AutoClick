@@ -24,11 +24,11 @@ class AutoClickerbyPhong:
         self.root.title("Auto Clicker")
         self.root.geometry("250x120+800+500")
         self.root.resizable(False, False)
-        self.root.iconbitmap(resource_path("snowflake.ico"))
+        self.root.iconbitmap(resource_path("resources/snowflake.ico"))
 
         self.running = False  # Trạng thái chạy/dừng
         
-        # Biến lưu cấu hình (Mặc định)
+        # Biến lưu cấu hình mặc định
         self.delay_var = tk.DoubleVar(value=0.1) # 100ms
         self.repeat_var = tk.IntVar(value=-1)    # -1 là lặp vô hạn
         
@@ -106,7 +106,7 @@ class AutoClickerbyPhong:
 
     #region Ham hien thi thong bao
     def notify_status(self, title, message):
-            path_to_icon = resource_path("bell.ico")
+            path_to_icon = resource_path("resources/bell.ico")
             notification.notify(
             title=title,
             message=message,
@@ -146,7 +146,7 @@ class AutoClickerbyPhong:
                 time.sleep(delay)
             
             # --- HIỆN LẠI CỬA SỔ KHI DỪNG ---
-            #self.root.after(0, self.root.deiconify)
+            self.root.after(0, self.root.deiconify)
             
             # --- THÔNG BÁO KẾT THÚC NẾU ĐƯỢC TÍCH ---
             if self.show_finish_var.get():
@@ -158,7 +158,7 @@ class AutoClickerbyPhong:
     def stop_clicking(self):
         self.running = False
         # Đảm bảo hiện lại cửa sổ khi bấm Stop
-        #self.root.after(0, self.root.deiconify)
+        self.root.after(0, self.root.deiconify)
         self.notify_status("Stoping", "Đã dừng click tự động.")
 
     def toggle_clicking(self):
@@ -179,7 +179,7 @@ class AutoClickerbyPhong:
             ctypes.windll.user32.FlashWindowEx(ctypes.byref(flash_info))
         except: pass
 
-    # 2. Hàm nháy viền đậm xung quanh nội dung (Tkinter)
+    # Hàm nháy viền đậm xung quanh nội dung Tkinter
     def flash_border_logic(self, frame, count=0):
         if not frame.winfo_exists(): return # Chống lỗi bad window path name
         if count < 6:
@@ -194,7 +194,7 @@ class AutoClickerbyPhong:
         win.title("Clicking options")
         win.geometry("320x240+1100+450")
         win.resizable(False, False)
-        win.iconbitmap(resource_path("mouse-cursor.ico"))
+        win.iconbitmap(resource_path("resources/mouse-cursor.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
 
@@ -240,7 +240,7 @@ class AutoClickerbyPhong:
         win.title("Clicking repeat")
         win.geometry("400x230+1100+450")
         win.resizable(False, False)
-        win.iconbitmap(resource_path("setting.ico"))
+        win.iconbitmap(resource_path("resources/setting.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
 
@@ -343,7 +343,7 @@ class AutoClickerbyPhong:
     #region Ham tinh thoi gion repeat va delay
     def apply_click_settings(self, win):
         if self.repeat_mode.get() == 1:
-            # Dùng .set() để cập nhật giá trị thay vì gán bằng dấu =
+            # Dùng .set để cập nhật giá trị thay vì gán bằng dấu bằng
             self.repeat_var.set(self.repeat_times.get()) 
         else:
             self.repeat_var.set(-1)
@@ -389,8 +389,7 @@ class AutoClickerbyPhong:
                 highlightbackground="#0078d4"
             )
         else:
-            # Nếu cửa sổ đã đóng, chúng ta chỉ cập nhật phím tắt vào hệ thống
-            # chứ không đụng vào giao diện nữa để tránh lỗi
+            # Nếu cửa sổ đã đóng, chúng ta chỉ cập nhật phím tắt vào hệ thống chứ không đụng vào giao diện
             self.hotkey_var.set(new_key)
 
     def apply_hotkey(self, win):
@@ -410,7 +409,7 @@ class AutoClickerbyPhong:
         win.title("Hotkey Setting")
         win.geometry("320x180+1100+470")
         win.resizable(False, False)
-        win.iconbitmap(resource_path("key.ico"))
+        win.iconbitmap(resource_path("resources/key.ico"))
         win.configure(bg="#f8f9fa") # Màu nền xám cực nhạt hiện đại
         win.transient(self.root)
         self.root.attributes("-disabled", True)
@@ -429,7 +428,7 @@ class AutoClickerbyPhong:
 
         tk.Label(top_row, text="Click / Stop", font=("Segoe UI", 10)).pack(side="left", padx=10)
         
-        # --- Ô HIỂN THỊ PHÍM (THIẾT KẾ ĐẸP) ---
+        # --- Ô HIỂN THỊ PHÍM THIẾT KẾ ĐẸP ---
         self.key_display = tk.Label(
             top_row, 
             text=self.hotkey_var.get(),
@@ -448,12 +447,12 @@ class AutoClickerbyPhong:
         # Gán sự kiện click cho Label
         self.key_display.bind("<Button-1>", lambda e: self.change_hotkey(self.key_display))
         
-        # Hiệu ứng khi di chuyển chuột vào (Hover)
+        # Hiệu ứng khi di chuyển chuột vào Hover
         self.key_display.bind("<Enter>", lambda e: self.key_display.config(bg="#f0f7ff"))
         self.key_display.bind("<Leave>", lambda e: self.key_display.config(bg="#ffffff"))
 
         # Hướng dẫn nhỏ
-        ttk.Label(main_frame, text="(Click vào ô trên rồi nhấn phím bất kỳ)", 
+        ttk.Label(main_frame, text="Click vào ô trên rồi nhấn phím bất kỳ", 
                   font=("Segoe UI", 8, "italic"), foreground="gray").pack()
 
         # Nút OK và Cancel
@@ -481,7 +480,7 @@ class AutoClickerbyPhong:
         win.geometry("320x220+1100+450")
         win.resizable(False, False)
         win.configure(bg="#f8f9fa")
-        win.iconbitmap(resource_path("eyes.ico"))
+        win.iconbitmap(resource_path("resources/eyes.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
 
@@ -499,7 +498,7 @@ class AutoClickerbyPhong:
         ttk.Checkbutton(main_frame, text="Show when it finish click", 
                         variable=self.show_finish_var).pack(anchor="w", pady=10)
 
-        # --- NÚT OK & CANCEL (ĐÃ ĐỒNG BỘ VỚI HOTKEY) ---
+        # --- NÚT OK VÀ CANCEL ĐÃ ĐỒNG BỘ VỚI HOTKEY ---
         btn_frame = tk.Frame(main_frame, bg="#f8f9fa") 
         btn_frame.pack(side="bottom", pady=15, fill="x")
 
@@ -530,7 +529,7 @@ class AutoClickerbyPhong:
         win.title("How to use")
         win.geometry("400x230+1100+450")
         win.resizable(False, False)
-        win.iconbitmap(resource_path("guide.ico"))
+        win.iconbitmap(resource_path("resources/guide.ico"))
         win.transient(self.root)
         self.root.attributes("-disabled", True)
         def close_about():
@@ -544,13 +543,13 @@ class AutoClickerbyPhong:
 
         # --- PHẦN THÊM CHỮ HƯỚNG DẪN BẮT ĐẦU TẠI ĐÂY ---
         huong_dan = """Instructions for use:
-1. Options -> Clicking -> Options: Change mouse cursor (L/R/M).
+1. Options -> Clicking -> Options: Change mouse cursor L/R/M.
 2. Options -> Clicking -> Repeat: Adjust speed and number of clicks.
 3. Options -> Settings -> Hot Key: Change start/stop hot key.
 4. Options -> Settings -> View: Customize window hide/show.
 
 Note: L: Left, R: Right, M: Middle mouse cursor
-Press the hot key (Default F8) to Start/Stop Auto Click."""
+Press the hot key Default F8 to Start/Stop Auto Click."""
 
         lbl_guide = tk.Label(
             main_frame, 
@@ -558,9 +557,9 @@ Press the hot key (Default F8) to Start/Stop Auto Click."""
             bg="#f8f9fa", 
             font=("Segoe UI", 9), 
             justify="left",         # Căn lề trái cho các dòng
-            anchor="w"              # Neo text về phía Tây (bên trái) của khung
+            anchor="w"              # Neo text về phía Tây bên trái của khung
         )
-        lbl_guide.pack(side="top", fill="both", expand=True, pady=(0, 10))
+        lbl_guide.pack(side="top", fill="both", expand=True, pady=0)
 
         btn_frame = tk.Frame(main_frame, bg="#f8f9fa") 
         btn_frame.pack(side="bottom", pady=15, fill="x")
